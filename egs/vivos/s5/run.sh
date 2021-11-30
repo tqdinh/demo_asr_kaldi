@@ -77,6 +77,13 @@ if [ $stage -le 5 ]; then
         exp/mono/graph data/test exp/mono/decode
 fi
 
+
+# align mono
 if [ $stage -le 6 ]; then
+    steps/align_si.sh --nj $nj --cmd "$train_cmd" \
+        data/train data/lang exp/mono exp/mono_ali
+fi
+
+if [ $stage -le 7 ]; then
     for x in exp/*/decode*; do [ -d $x ] && grep WER $x/wer_* | utils/best_wer.sh; done
 fi
